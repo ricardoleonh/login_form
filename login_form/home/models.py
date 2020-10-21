@@ -1,6 +1,6 @@
 from django.db import models
 import re
-import bycrypt
+import bcrypt
 email_regex = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 contact_number = re.compile(r'^[0-9][0-9]\*\\.?[0-9]*')
 
@@ -22,12 +22,11 @@ class UserManager(models.Manager): # Validates the regitration form is complete 
             errors['mail'] = "Email already in use"
         elif not email_regex.match(postData['mail']):
             errors['mail'] = "Invalid Email Format"
-        ['contact_no'])
         if len(postData['contact_no']) == 0:
             errors['contact_no'] = "Phone Number is Required"
         elif len(postData['contact_no']) < 10:
             errors['contact_no'] = "Phone Number must be at least 10 digits long"
-        existing_contact = User.objects.filter(number=postData
+        existing_contact = User.objects.filter(contact_no=postData['contact_no'])
         if len(existing_contact) > 0:
             errors['contact_no'] = "Phone Number already in use"
         elif not contact_number.match(postData['contact_no']):
@@ -50,7 +49,7 @@ class User(models.Model):
     updated_at = models.DateField(auto_now=True)
     objects = UserManager()
 
-    
+
 
 
 
