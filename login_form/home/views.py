@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import *
 import bcrypt
-import pdb
 
 def index(request):
     return render(request, 'login.html')
