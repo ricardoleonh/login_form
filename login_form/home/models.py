@@ -39,6 +39,21 @@ class UserManager(models.Manager): # Validates the regitration form is complete 
             errors['password'] = "Password and Confirm Password must match!"
         return errors
 
+    def log_validator(self, postData):
+        errors = {}
+        if len(postData['mail']) == 0:
+            errors['mail'] = "Email is required"
+        elif not email_regex.match([postData['mail']]):
+            errors['mail' = "Invalid Email Format"]
+        existing_user = User.objects.filter(mail=postData['mail'])
+        if len(existing_user) != 1:
+            errors['mail'] = "User not Found!"
+        elif len(postData['password']) == 0:
+            errors['password'] = "Password Required"
+        elif not bcrypt.checkpw(postData['password'].encode(), existing_user[0].password.encode()):
+            errors['mail'] = "Email and password do no match"
+        return errors
+
 class User(models.Model):
     first_name = models.CharField(max_length=45)
     last_name = models.CharField(max_length=45)
