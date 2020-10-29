@@ -22,20 +22,11 @@ class UserManager(models.Manager): # Validates the regitration form is complete 
             errors['mail'] = "Email already in use"
         elif not email_regex.match(postData['mail']):
             errors['mail'] = "Invalid Email Format"
-        if len(postData['contact_no']) == 0:
-            errors['contact_no'] = "Phone Number is Required"
-        elif len(postData['contact_no']) < 10:
-            errors['contact_no'] = "Phone Number must be at least 10 digits long"
-        existing_contact = User.objects.filter(contact_no=postData['contact_no'])
-        if len(existing_contact) > 0:
-            errors['contact_no'] = "Phone Number already in use"
-        elif not contact_number.match(postData['contact_no']):
-            errors['contact_no'] = "Invalid Phone Number Format"
         if len(postData['password']) == 0:
             errors['password'] = "Password is Required"
         elif len(postData['password']) < 8:
             errors['password'] = "Password must be at least 8 Characters"
-        elif postData['password'] != postData['comfirm_password']:
+        elif postData['password'] != postData['comfirm_pw']:
             errors['password'] = "Password and Confirm Password must match!"
         return errors
 
@@ -44,7 +35,7 @@ class UserManager(models.Manager): # Validates the regitration form is complete 
         if len(postData['mail']) == 0:
             errors['mail'] = "Email is required"
         elif not email_regex.match([postData['mail']]):
-            errors['mail' = "Invalid Email Format"]
+            errors['mail'] = "Invalid Email Format"
         existing_user = User.objects.filter(mail=postData['mail'])
         if len(existing_user) != 1:
             errors['mail'] = "User not Found!"
@@ -58,7 +49,6 @@ class User(models.Model):
     first_name = models.CharField(max_length=45)
     last_name = models.CharField(max_length=45)
     mail = models.CharField(max_length=60)
-    contact_no = models.IntegerField(max_length=10)
     password = models.CharField(max_length=40)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
