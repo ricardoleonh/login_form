@@ -26,7 +26,7 @@ class UserManager(models.Manager): # Validates the regitration form is complete 
             errors['password'] = "Password is Required"
         elif len(postData['password']) < 8:
             errors['password'] = "Password must be at least 8 Characters"
-        elif postData['password'] != postData['comfirm_pw']:
+        elif postData['password'] != postData['confirm_pw']:
             errors['password'] = "Password and Confirm Password must match!"
         return errors
 
@@ -34,7 +34,7 @@ class UserManager(models.Manager): # Validates the regitration form is complete 
         errors = {}
         if len(postData['mail']) == 0:
             errors['mail'] = "Email is required"
-        elif not email_regex.match([postData['mail']]):
+        elif not email_regex.match(postData['mail']):
             errors['mail'] = "Invalid Email Format"
         existing_user = User.objects.filter(mail=postData['mail'])
         if len(existing_user) != 1:
