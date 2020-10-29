@@ -48,4 +48,10 @@ def login(request):
             for key, value in errors.items():
                 messages.error(request, value)
             return redirect ('/')
+        this_user = User.objects.get(mail=request.POST['mail'])
+        request.session['user_first_name'] = this_user.first_name
+        request.session['user_last_name'] = this_user.last_name
+        request.session['user_mail'] = this_user.mail
+        request.session['user_id'] = this_user.id
+        return redirect('/dashboard')
         
