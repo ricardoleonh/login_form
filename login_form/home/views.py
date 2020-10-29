@@ -31,7 +31,7 @@ def registration(request):
         new_user = User.objects.create ( #to create a new user
             first_name = request.POST['first_name'],
             last_name = request.POST['last_name'],
-            email = request.POST['mail'],
+            mail = request.POST['mail'],
             password = hashed_pw
         )
         request.session['user_first_name'] = new_user.first_name
